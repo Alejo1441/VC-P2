@@ -9,10 +9,14 @@
 ### Tarea 1
 Realiza la cuenta de píxeles blancos por filas (en lugar de por columnas). Determina el valor máximo de píxeles blancos para filas, maxfil, mostrando el número de filas y sus respectivas posiciones, con un número de píxeles blancos mayor o igual que 0.90*maxfil. Resalta con alguna primitiva gráfica en la imagen de Canny las filas que cumplen dicha condición.
 
+Para esta tarea se va a realizar lo mismo que el ejercicio anterior, que estaba en el notebook pero esta vez para las filas y para ello he realizado una serie de cambios
+
 ```python
 fil_counts = cv2.reduce(canny, 1, cv2.REDUCE_SUM, dtype=cv2.CV_32SC1)   # 0 columnas, 1 filas
+```
+el primer cambio realizado es que en vez de ser un 0, en el reduce, es un 1 para que se realice por filas en vez de columnas
 
-
+```python
 filas_cuentas = fil_counts[:, 0] / (255 * canny.shape[1])
 maxfil = np.max(filas_cuentas)
 umbral = 0.9 * maxfil
@@ -20,10 +24,14 @@ umbral = 0.9 * maxfil
 filas_selecionadas = np.where(filas_cuentas >= umbral)[0] # Devuelve las filas que cumplen la condición
 
 canny_marcada = cv2.cvtColor(canny, cv2.COLOR_GRAY2BGR) # Convierte a BGR para poder dibujar en color   
-    
+```
+lo siguiente que se realiza es el conteo de las filas, y la creacion de una variable llamada canny_marcada para pintar sobre esta las lineas que nos pide la tarea
+
+```python
 for fila in filas_selecionadas:
     cv2.line(canny_marcada, (0, fila), (canny.shape[1]-1, fila), (0, 0, 255), 1) 
-´´´
+```
+por ultimo aqui lo que se realiza es dibujar lineas horizontales, en la imagen, exactamente donde se supera el umbral
 
 
 ### Tarea 2
